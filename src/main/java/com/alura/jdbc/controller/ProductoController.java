@@ -1,6 +1,6 @@
 package com.alura.jdbc.controller;
 
-import com.alura.jdbc.CreaConexion;
+import com.alura.jdbc.factory.ConnectionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class ProductoController {
 	public List<Map<String,String>> listar() throws SQLException {
 		// TODO
 
-		Connection con = new CreaConexion().recuperaConexion();
+		Connection con = new ConnectionFactory().recuperaConexion();
 		Statement statement = con.createStatement();
 		statement.execute("SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD FROM PRODUCTO");
 		ResultSet resultSet = statement.getResultSet();
