@@ -43,8 +43,23 @@ public class ProductoController {
 		return resultado;
 	}
 
-    public void guardar(Object producto) {
+    public void guardar(Map<String, String> producto) throws SQLException {
 		// TODO
+		Connection con = new ConnectionFactory().recuperaConexion();
+
+		Statement statement = con.createStatement();
+
+		statement.execute("INSERT INTO PRODUCTO (nombre, descripcion, cantidad)"
+				+ " VALUES('"+ producto.get("NOMBRE") + "', '"
+				+ producto.get("DESCRIPCION") + "', "
+				+ producto.get("CANTIDAD")+")", Statement.RETURN_GENERATED_KEYS);
+
+		ResultSet resultSet = statement.getGeneratedKeys();
+
+		while(resultSet.next()){
+			System.out.println(String.format("Fue insertado el producto de ID %d", resultSet.getInt(1)));
+
+		}
 	}
 
 }
