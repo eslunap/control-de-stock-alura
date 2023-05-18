@@ -24,4 +24,23 @@ public class Producto {
         return cantidad;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        /*return "Producto{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", cantidad=" + cantidad +
+                '}';*/
+        return String.format(
+                "{id: %s, nombre: %s, descripción: %s, cantidad: %d}",
+                this.id,
+                this.nombre,
+                this.descripcion,
+                this.cantidad);
+    }
 }
