@@ -1,8 +1,14 @@
 package com.alura.jdbc.dao;
 
+import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.modelo.Producto;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 //DAO = Data Access Object
 public class ProductoDAO {
 
@@ -12,25 +18,19 @@ public class ProductoDAO {
         this.con = con;
     }
 
-    public void guardar(Producto producto) throws SQLException {
+    public void guardar(Producto producto){
         try(con) {
-            con.setAutoCommit(false);
-
-            final PreparedStatement statement = con.prepareStatement("INSERT INTO PRODUCTO "
+            final PreparedStatement statement = con.prepareStatement(
+                    "INSERT INTO PRODUCTO "
                             + "(nombre, descripcion, cantidad)"
                             + " VALUES(?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
 
             try(statement){
                 ejecutaRegistro(producto, statement);
-
-                con.commit();
-                System.out.println("COMMIT");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            con.rollback();
-            System.out.println("ROLLBACK");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -48,6 +48,32 @@ public class ProductoDAO {
                 producto.setId(resultSet.getInt(1));
                 System.out.println(String.format("Fue insertado el producto %s", producto));
             }
+        }
+    }
+
+    public List<Producto> listar() {
+        List<Producto> resultado = new ArrayList<>();
+
+        final Connection con = new ConnectionFactory().recuperaConexion();
+        try(con) {
+            final PreparedStatement statement = con.prepareStatement("SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD FROM PRODUCTO");
+            try(statement) {
+                statement.execute();
+                final ResultSet resultSet = statement.getResultSet();
+
+                try(resultSet) {
+                    while (resultSet.next()) {
+                        Producto fila = new Producto(resultSet.getInt("ID"),
+                                resultSet.getString("NOMBRE"),
+                                resultSet.getString("DESCRIPCION"),
+                                resultSet.getInt("CANTIDAD"));
+                        resultado.add(fila);
+                    }
+                }
+            }
+            return resultado;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
         }
     }
 }
