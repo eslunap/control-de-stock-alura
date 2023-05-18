@@ -91,8 +91,8 @@ public class ProductoController {
 			System.out.println("COMMIT");
 			con.commit();
 		}catch (Exception e){
-			System.out.println("ROLLBACK");
 			con.rollback();
+			System.out.println("ROLLBACK");
 		}
 		statement.close();
 		con.close();
@@ -106,12 +106,10 @@ public class ProductoController {
 
 		statement.execute();
 
-		ResultSet resultSet = statement.getGeneratedKeys();
-
-		while(resultSet.next()){
-			System.out.println(String.format("Fue insertado el producto de ID %d", resultSet.getInt(1)));
-
+		try(ResultSet resultSet = statement.getGeneratedKeys();){
+			while(resultSet.next()){
+				System.out.println(String.format("Fue insertado el producto de ID %d", resultSet.getInt(1)));
+			}
 		}
 	}
-
 }
