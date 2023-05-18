@@ -2,9 +2,8 @@ package com.alura.jdbc.controller;
 
 import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.modelo.Producto;
-import com.alura.jdbc.persistencia.PersistenciaProducto;
+import com.alura.jdbc.dao.ProductoDAO;
 
-import java.net.ConnectException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,7 +75,7 @@ public class ProductoController {
 
     public void guardar(Producto producto) throws SQLException {
 		// TODO
-		PersistenciaProducto persistenciaProducto = new PersistenciaProducto(new ConnectionFactory().recuperaConexion());
-		persistenciaProducto.guardarProducto(producto);
+		ProductoDAO productoDAO = new ProductoDAO(new ConnectionFactory().recuperaConexion());
+		productoDAO.guardar(producto);
 	}
 }

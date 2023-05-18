@@ -1,23 +1,18 @@
-package com.alura.jdbc.persistencia;
+package com.alura.jdbc.dao;
 
-import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.modelo.Producto;
 
 import java.sql.*;
+//DAO = Data Access Object
+public class ProductoDAO {
 
-public class PersistenciaProducto {
+    final private Connection con;
 
-    private Connection con;
-
-    public PersistenciaProducto(Connection con){
+    public ProductoDAO(Connection con){
         this.con = con;
     }
 
-    public void guardarProducto(Producto producto) throws SQLException {
-        ConnectionFactory factory = new ConnectionFactory();
-
-        final Connection con = factory.recuperaConexion();
-
+    public void guardar(Producto producto) throws SQLException {
         try(con) {
             con.setAutoCommit(false);
 
