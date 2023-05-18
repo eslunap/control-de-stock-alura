@@ -10,22 +10,21 @@ import java.util.Map;
 
 public class ProductoController {
 
-	public int modificar(String nombre, String descripcion, Integer id) throws SQLException {
+	public int modificar(String nombre, String descripcion, Integer cantidad, Integer id) throws SQLException {
 		// TODO
 
 		Connection con = new ConnectionFactory().recuperaConexion();
 
 		Statement statement = con.createStatement();
 		statement.execute("UPDATE PRODUCTO SET "
-				+"NOMBRE = '"+nombre  +  "'"
-				//+", DESCRIPCION = '" + descripcion+"'"
-				//+", CANTIDAD = "+ cantidad
-				+ "WHERE ID = " + id);
+				+" NOMBRE = '"+nombre  +  "'"
+				+", DESCRIPCION = '" + descripcion+"'"
+				+", CANTIDAD = "+ cantidad
+				+ " WHERE ID = " + id);
 
-		//int updateCount = statement.getUpdateCount();
-		//con.close();
-		//return updateCount;
-		return statement.getUpdateCount();
+		int updateCount = statement.getUpdateCount();
+		con.close();
+		return updateCount;
 	}
 
 	public int eliminar(Integer id) throws SQLException {
@@ -34,6 +33,8 @@ public class ProductoController {
 
 		Statement statement = con.createStatement();
 		statement.execute("DELETE FROM PRODUCTO WHERE ID = " + id);
+
+		con.close();
 		return statement.getUpdateCount();
 	}
 

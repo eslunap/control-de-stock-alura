@@ -55,6 +55,7 @@ public class ControlDeStockFrame extends JFrame {
         modelo = (DefaultTableModel) tabla.getModel();
         modelo.addColumn("Identificador del Producto");
         modelo.addColumn("Nombre del Producto");
+        modelo.addColumn("Descripción de Producto");
         modelo.addColumn("Cantidad");
 
         cargarTabla();
@@ -177,7 +178,7 @@ public class ControlDeStockFrame extends JFrame {
 
     private void modificar() {
         if (tieneFilaElegida()) {
-            JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+            JOptionPane.showMessageDialog(this, "Por favor, elige un item");
             return;
         }
 
@@ -186,20 +187,20 @@ public class ControlDeStockFrame extends JFrame {
                     Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
                     String nombre = (String) modelo.getValueAt(tabla.getSelectedRow(), 1);
                     String descripcion = (String) modelo.getValueAt(tabla.getSelectedRow(), 2);
+                    Integer cantidad = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 3).toString());
 
                     try {
-                        this.productoController.modificar(nombre, descripcion, id);
+                        this.productoController.modificar(nombre, descripcion, cantidad, id);
                     } catch (SQLException e) {
-                        //e.printStackTrace();
                         throw new RuntimeException(e);
                     }
-                    JOptionPane.showMessageDialog(this, "Actulización correcta");
-                }, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+                    JOptionPane.showMessageDialog(this, "Actualización correcta");
+                }, () -> JOptionPane.showMessageDialog(this, "Por favor, elige un item"));
     }
 
     private void eliminar() {
         if (tieneFilaElegida()) {
-            JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+            JOptionPane.showMessageDialog(this, "Por favor, elige un item");
             return;
         }
 
