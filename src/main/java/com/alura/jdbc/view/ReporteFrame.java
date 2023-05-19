@@ -21,7 +21,7 @@ public class ReporteFrame extends JFrame {
     private ProductoController productoController;
 
     public ReporteFrame(ControlDeStockFrame controlDeStockFrame) {
-        super("Reporte de produtos del stock");
+        super("Reporte de productos del stock");
 
         this.categoriaController = new CategoriaController();
         this.productoController = new ProductoController();

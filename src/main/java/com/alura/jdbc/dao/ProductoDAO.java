@@ -119,10 +119,12 @@ public class ProductoDAO {
 
         final Connection con = new ConnectionFactory().recuperaConexion();
         try(con) {
-            final PreparedStatement statement = con.prepareStatement(
-                    "SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD " +
+            var querySelect = "SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD " +
                     "FROM PRODUCTO " +
-                    "WHERE CATEGORIA_ID = ?");
+                    "WHERE CATEGORIA_ID = ?";
+
+            System.out.println(querySelect);
+            final PreparedStatement statement = con.prepareStatement(querySelect);
             try(statement) {
                 statement.setInt(1, categoriaId);
                 statement.execute();
